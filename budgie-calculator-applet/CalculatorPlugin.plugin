@@ -1,6 +1,6 @@
 [Plugin]
 Loader=python3
-Module=calc_applet
+Module=calc_applet.py
 Name=Calculator Applet
 Description=This tiny applet allows you to embed a tiny calculator in your budgie-panel
 Authors=Kashif Ahmed

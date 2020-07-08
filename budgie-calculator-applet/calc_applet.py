@@ -1,8 +1,8 @@
 import gi.repository
 gi.require_version('Budgie', '1.0')
 from gi.repository import Budgie, GObject, Gtk, Gio
-from calculator import CalculatorGui as calc
 import os
+from calculator import CalculatorGui as calculator
 
 
 """
@@ -21,13 +21,13 @@ should have received a copy of the GNU General Public License along with this
 program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-class EmptyPopover(GObject.GObject, Budgie.Plugin):
+class Calculator(GObject.GObject, Budgie.Plugin):
     """ This is simply an entry point into your Budgie Applet implementation.
         Note you must always override Object, and implement Plugin.
     """
 
     # Good manners, make sure we have unique name in GObject type system
-    __gtype_name__ = "EmptyPopover"
+    __gtype_name__ = "budgieCalculatorApplet"
 
     def __init__(self):
         """ Initialisation is important.
@@ -39,10 +39,10 @@ class EmptyPopover(GObject.GObject, Budgie.Plugin):
             instance with the given UUID. The UUID is determined by the
             BudgiePanelManager, and is used for lifetime tracking.
         """
-        return EmptyPopoverApplet(uuid)
+        return CalculatorApplet(uuid)
 
 
-class EmptyPopoverApplet(Budgie.Applet):
+class CalculatorApplet(Budgie.Applet):
     """ Budgie.Applet is in fact a Gtk.Bin """
 
     def __init__(self, uuid):
@@ -50,7 +50,7 @@ class EmptyPopoverApplet(Budgie.Applet):
         self.tab_message = ""
         Budgie.Applet.__init__(self)
         self.uuid = uuid
-        self.calc = calc()
+        self.calc = calculator()
 
         # applet appearance
         self.icon = Gtk.Image()
@@ -61,14 +61,19 @@ class EmptyPopoverApplet(Budgie.Applet):
         self.box.add(self.icon)
         self.add(self.box)
         self.popover = Budgie.Popover.new(self.box)
+        
+        self.maingrid = Gtk.Box
+        self.popover.add(self.maingrid)
 
-        self.popover.add(calc)
-
-
+        """ maingrid is where to attach all the functions for the budgie popup
+        """
+	
+	self.maingrid.attach(self.calc, 0, 0, 2, 2)
+	
+        self.maingrid.show_all()
         self.box.show_all()
         self.show_all()
         self.box.connect("button-press-event", self.on_press)
-
 
     def on_press(self, box, arg):
         self.manager.show_popover(self.box)
@@ -76,7 +81,6 @@ class EmptyPopoverApplet(Budgie.Applet):
     def do_update_popovers(self, manager):
         self.manager = manager
         self.manager.register_popover(self.box, self.popover)
-
 
     def do_supports_settings(self):
         """Return True if support setting through Budgie Setting,

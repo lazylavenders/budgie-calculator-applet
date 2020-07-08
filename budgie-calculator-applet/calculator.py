@@ -5,7 +5,7 @@ import gi
 gi.require_version('Gtk','3.0')
 from gi.repository import Gtk
 
-debug = False
+
 class CalculatorGui(Gtk.Box):
     def __init__(self, css=False, buttons_fill=False, button_expand=False, box_padding=3, grid_padding=3):
         Gtk.Box.__init__(self)
@@ -118,8 +118,6 @@ class CalculatorGui(Gtk.Box):
     def go(self, widget):
         _ = self.formatted_text()
         exec(f'self.entry.set_text(str({_}))')
-        if debug:
-            print("Done, result is >> "+ self.entry.get_text())
     
     def backspace_func(self, widget):
         self.entry.set_text(self.entry.get_text()[:-1])
@@ -170,16 +168,3 @@ class CalculatorGui(Gtk.Box):
     def fnc_buttonrem(self, button): self.entry.set_text(self.entry.get_text() + '%')
     
     def fnc_buttonpower(self, button): self.entry.set_text(self.entry.get_text() + '^') 
-       
-
-if __name__ == '__main__':
-    _ = Gtk.Window()
-    _.set_title('Calculator')
-    _.connect('destroy', Gtk.main_quit)
-
-    __ = CalculatorGui(css='style.css')
-
-    _.add(__)
-
-    _.show_all()
-    Gtk.main()
