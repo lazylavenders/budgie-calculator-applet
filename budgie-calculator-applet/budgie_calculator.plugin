@@ -1,0 +1,9 @@
+[Plugin]
+Loader=python3
+Module=budgie_calculator
+Name=Budgie Calculator Applet
+Description=This application allows you to embed a tiny calculator in your budgie-panel.
+Authors=Budgie Devs
+Copyright=GNU All Permissive
+Website=https://quora.com/Kashif-Ahmed-367/
+Icon=gnome-calculator
