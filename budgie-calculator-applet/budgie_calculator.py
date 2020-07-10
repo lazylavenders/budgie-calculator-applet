@@ -47,7 +47,6 @@ class BudgieCalculatorApplet(Budgie.Applet):
 
     def __init__(self, uuid):
 
-        self.tab_message = ""
         Budgie.Applet.__init__(self)
         self.uuid = uuid
 
@@ -61,16 +60,17 @@ class BudgieCalculatorApplet(Budgie.Applet):
         self.add(self.box)
         self.popover = Budgie.Popover.new(self.box)
         
-        self.calc = calc(False, True, True)
+        self.calc = calc()
         self.popover.add(self.calc)
 
         self.box.show_all()
+        self.popover.show_all()
         self.show_all()
         self.box.connect("button-press-event", self.on_press)
 
 
     def on_press(self, box, arg):
-        self.manager.show_popover(self.box)
+        self.manager.show_popover(self.popover)
 
     def do_update_popovers(self, manager):
         self.manager = manager
