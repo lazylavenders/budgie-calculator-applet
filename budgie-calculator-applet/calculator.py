@@ -3,11 +3,12 @@
 
 import gi
 gi.require_version('Gtk','3.0')
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 debug = False
 class CalculatorGui(Gtk.Box):
-    def __init__(self, css=False, buttons_fill=False, button_expand=False, box_padding=3, grid_padding=3):
+    def __init__(self, css=False, buttons_fill=False, button_expand=False, box_padding=3, grid_padding=5,\
+                 equal_bgcolor='#5294e2', equal_fgcolor='white'):
         Gtk.Box.__init__(self)
 
         self.set_orientation(Gtk.Orientation.VERTICAL)
@@ -27,6 +28,7 @@ class CalculatorGui(Gtk.Box):
         self.pack_end  (self.grid     , True, True, box_padding)
         
         self.entry_box.pack_start(self.entry, True, True, box_padding)
+        self.entry.set_width_chars(20)
 
         self.grid.set_row_spacing(grid_padding)
         self.grid.set_column_spacing(grid_padding)
@@ -58,7 +60,8 @@ class CalculatorGui(Gtk.Box):
 
         # Special colour for equal button.
 
-        self.buttonequal.set_css_name('equal')
+        self.buttonequal.modify_bg(Gtk.StateFlags.NORMAL, Gdk.color_parse(equal_bgcolor))
+        self.buttonequal.modify_fg(Gtk.StateFlags.NORMAL, Gdk.color_parse(equal_fgcolor))
         
         
         self.button1.connect("clicked",self.fnc_button1)
